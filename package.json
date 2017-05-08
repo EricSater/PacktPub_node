@@ -1,0 +1,15 @@
+{
+	"name": "packt-pub",
+	"version": "1.0.0",
+	"description": "",
+	"main": "script.js",
+	"scripts": {},
+	"author": "Eric Sater",
+	"license": "UNLICENSED",
+	"private": true,
+	"dependencies": {
+		"cheerio": "0.22.0",
+		"request": "2.81.0",
+		"request-promise-native": "1.0.3"
+	}
+}
