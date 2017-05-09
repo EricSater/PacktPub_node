@@ -1,5 +1,5 @@
 # PacktPub_node
-This is a node script that claims the free e-book offered everyday at [PacktPub.com](https://www.packtpub.com/packt/offers/free-learning/) and then downloads it to the directory of your choice.
+This is a node script that claims the free e-book offered at [PacktPub.com](https://www.packtpub.com/packt/offers/free-learning/) and then downloads it to the directory of your choice.
 I only implemented functions to download the PDF, ePub, and code (.zip) files. I might add functions to download the Kindle and mobi files later and make them all optional.
 
 # How it works
@@ -18,6 +18,7 @@ const rootDirectory = String.raw`C:\Your\Directory`;
     - `Program/script: C:\Windows\System32\cmd.exe`
     - `Add arguments: /c "node script.js"`
     - `Start in: C:\TheFolder\WhereTheScript\Resides`
+5. The e-book offer changes everyday at midnight UTC.
 
 # Dependencies
 ### [Node](https://nodejs.org/)
