@@ -4,7 +4,7 @@ I only implemented functions to download the PDF, ePub, and code (.zip) files. I
 
 # How it works
 1. Clone the repository locally and run npm --install.
-2. Open script.js in a text editor and enter your username and password into the appropriate variables. Enter the path for the directory you want the files downloaded to between the backticks (`). Save your changes.
+2. Open script.js in a text editor and enter your username and password into the appropriate variables (you'll need an account setup on PacktPub, duh!). Enter the path for the directory you want the files downloaded to between the backticks (`). Save your changes.
 ```javascript
 const username = "YourName"; // Enter your username here
 const password = "YourPassword"; // Enter your password here
@@ -17,7 +17,7 @@ const rootDirectory = String.raw`C:\Your\Directory`;
     - `Action: Start a program`
     - `Program/script: C:\Windows\System32\cmd.exe`
     - `Add arguments: /c "node script.js"`
-    - `Start in: C:\TheFolder\WhereTheScript\Resides`
+    - `Start in: C:\TheFolder\WhereTheScript\Resides` (no trailing backslash)
 5. The e-book offer changes everyday at midnight UTC.
 
 # Dependencies
