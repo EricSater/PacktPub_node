@@ -5,7 +5,7 @@ let cheerio = require("cheerio");
 let fs = require("fs");
 
 module.exports = class PacktApi {
-    constructor() {
+    constructor(pdf, ePub, mobi/*, kindle*/, code) {
         this.cookieJar = rpn.jar();
         this.host = "www.packtpub.com";
         this.origin = "https://www.packtpub.com";
@@ -28,7 +28,16 @@ module.exports = class PacktApi {
         this.bookId = "";
         this.bookTitle = "";
         this.isbn = "";
-        this.fileTypes = ["pdf", "epub", "zip"];
+        this.fileTypes = this.getFileTypes(pdf, ePub, mobi/*, kindle*/, code);
+    }
+    getFileTypes(pdf, ePub, mobi/*, kindle*/, code) {
+        let output = [];
+        if (pdf) output.push("pdf");
+        if (ePub) output.push("epub");
+        if (mobi) output.push("mobi");
+        // if (kindle) output.push("");
+        if (code) output.push("zip");
+        return output;
     }
     async login(username, password) {
         await this.getHomePage();
@@ -135,7 +144,8 @@ module.exports = class PacktApi {
             fs.mkdirSync(this.downloadDirectory);
         }
         catch (e) {
-            if (e.code === "EEXIST") { // If the directory already exists, then remove any files from it so we can get a fresh download.
+            // If the directory already exists, then remove any files from it so we can get a fresh download.
+            if (e.code === "EEXIST") {
                 console.log("Directory already exists. Emptying directory.");
                 this.removeFilesFromDirectory();
             } else {
@@ -170,10 +180,14 @@ module.exports = class PacktApi {
         } else if (type === "epub") {
             uri += hrefs.find(x => /epub$/.test(x.attribs["href"])).attribs["href"];
             fileName += ".epub";
+        } else if (type === "mobi") {
+            uri += hrefs.find(x => /mobi$/.test(x.attribs["href"])).attribs["href"];
+            fileName += ".mobi";
         } else if (type === "zip") {
             uri += hrefs.find(x => /^\/code_download/.test(x.attribs["href"])).attribs["href"];
             fileName += "_code.zip";
         }
+        if (!uri) console.log(`${type} file is not available for this e-book`);
         return { uri, fileName };
     }
     async downloadFile(uri, fileName, type) {
