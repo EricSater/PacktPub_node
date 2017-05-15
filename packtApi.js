@@ -176,7 +176,7 @@ module.exports = class PacktApi {
         let fileName = this.isbn;
         if (type === "pdf") {
             uri += hrefs.find(x => /pdf$/.test(x.attribs["href"])).attribs["href"];
-            fileName += `-${this.bookTitle.replace(/\W+/g, "").toUpperCase()}.pdf`;
+            fileName += `-${this.bookTitle.replace(/\W+/g, "").replace(/_{2}/, "_").toUpperCase()}.pdf`;
         } else if (type === "epub") {
             uri += hrefs.find(x => /epub$/.test(x.attribs["href"])).attribs["href"];
             fileName += ".epub";

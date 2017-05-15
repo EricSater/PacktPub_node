@@ -33,7 +33,7 @@ C:\Your\Directory\Unity_AI_Game_Programming_-_Second_Edition
 9781785288272.epub
 9781785288272.mobi
 9781785288272_code.zip
-9781785288272-UNITY_AI_GAME_PROGRAMMING__SECOND_EDITION.pdf
+9781785288272-UNITY_AI_GAME_PROGRAMMING_SECOND_EDITION.pdf
 ```
 7. Right now, if the book directory already exists (either because the app erred or you have downloaded it before), it will delete the contents before downloading the files. I might change that functionality later. Leave a comment or submit an issue or pull request if you have any feedback on that.
 8. To schedule as a Windows Task, create a new task. Under the "Action" settings:
