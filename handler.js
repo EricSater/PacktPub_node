@@ -13,23 +13,19 @@ module.exports = class Handler {
     getEBookDiv(body, bookTitle) {
         let $ = cheerio.load(body);
         let ebookDiv;
-        // if (bookId) {
-        //     ebookDiv = $("div.product-line").toArray().find(x => {
-        //         return $(x).attr("nid") === bookId;
-        //     });
-        // } else {
         ebookDiv = $("div.product-line").toArray().find(x => {
             return $(x).attr("title").startsWith(bookTitle);
         });
-        // }
         return ebookDiv;
     }
 
     isTodaysBook(ebookDiv) {
         let $ = cheerio.load(ebookDiv);
         let orderDate = $($("td").toArray()[2]).text().trim().split(" ");
-        let today = Date().split(" ");
-        return orderDate[0] === today[2] && orderDate[1] === today[1] && orderDate[2] === today[3];
+        // Since the website uses UTC, we use UTC to compare dates here
+        let today = new Date().toUTCString().split(" ");
+        //                  day                         month                        year
+        return orderDate[0] === today[1] && orderDate[1] === today[2] && orderDate[2] === today[3];
     }
 
     getIsbn(ebookDiv) {

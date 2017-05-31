@@ -80,7 +80,6 @@ module.exports = class PacktApi {
         let $ = cheerio.load(body);
         let claimBookHref = $(".twelve-days-claim").attr("href");
         let claimBookUri = this.origin + claimBookHref;
-        // let bookId = claimBookHref.match(/\/(\d*)\//)[1];
         return claimBookUri;
     }
     async getBook(claimBookUri) {
