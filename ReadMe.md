@@ -1,41 +1,43 @@
 # PacktPub_node
-This is a node script that claims the free e-book offered at [PacktPub.com](https://www.packtpub.com/packt/offers/free-learning/) and then downloads it to the directory of your choice.  
-However, I don't know how to make the Kindle download work, because I don't have a Kindle.
+~~This is a node script that claims the free e-book offered at [PacktPub.com](https://www.packtpub.com/packt/offers/free-learning/) and then downloads it to the directory of your choice.  
+However, I don't know how to make the Kindle download work, because I don't have a Kindle.~~
+
+### UPDATE (5/30/17):
+
+PacktPub has now implemented reCaptchas on their website including the button to claim the free e-book. A work-around is too complicated right now, so this script's default configuration is to login and download the book if it's already in your library.
+
+I personally have a separate python script that uses the Selenium Webdriver to start up a firefox instance and log me in. I then navigate the captcha and claim the book. Once I close the firefox window, the python script then executes this node script, and I'm happily on my way. It's a couple more manual steps than previously, but it's the least amount of manual interaction that I can get away with right now.
 
 # How it works
 1. Clone the repository and run npm --install.
-2. Open script.js in a text editor and enter your username and password into the appropriate variables (you'll need an account setup on PacktPub, duh!). Enter the path for the directory you want the books downloaded to between the backticks (`).
+2. Open `config.js` in a text editor and enter your username and password into the appropriate variables (you'll need an account setup on PacktPub, duh!).
 ```javascript
-const username = "YourName"; // Enter your username here
-const password = "YourPassword"; // Enter your password here
+credentials: {
+        username: "YourAccountName", // Enter your PacktPub account username here.
+        password: "YourAccountPass" // Enter your PacktPub account password here.
+    },
+```
+3. Enter the path for the directory you want the books downloaded to between the backticks (`).
+```javascript
 // Enter the path for the directory where you want the files downloaded between the backticks (`).
 // String.raw is a verbatim string which allows you to put in a file path without needing to escape the slashes.
-const rootDirectory = String.raw`C:\Your\Directory`;
+rootDirectory: String.raw`C:\Your\Directory`,
 ```
-3. Set the following variables to false if you **_do not_** want that file type downloaded (default is true for all). Save your changes.
-```javascript
-const pdf = true;
-const ePub = true;
-const mobi = true;
-// I don't know how the Kindle download works because I don't have a Kindle to try it on.
-// const kindle = true;
-const code = true;
-```
-4. To run manually, navigate to the project folder in a command prompt or terminal and run "node script.js".
-5. The app creates a directory, using the book title (delimited with underscores, "_") as the directory name, in the directory you set as the `rootDirectory` above, e.g.
+4. Set the rest of the configurable options as you wish. They are explained well in the file.
+5. To run manually, navigate to the project folder in a command prompt or terminal and run "node script.js".
+6. The app creates a directory, using the book title (delimited with underscores, "_") as the directory name, in the directory you set as the `rootDirectory` above, e.g.
 ```
 C:\Your\Directory\Unity_AI_Game_Programming_-_Second_Edition
 ```
-6. All files are then downloaded to that directory using the naming convention that PacktPub uses when you download them manually from the website, e.g.
+7. All files are then downloaded to that directory using the naming convention that PacktPub uses when you download them manually from the website, e.g.
 ```
 // Inside of C:\Your\Directory\Unity_AI_Game_Programming_-_Second_Edition
-// The number is the ISBN
 9781785288272.epub
 9781785288272.mobi
 9781785288272_code.zip
 9781785288272-UNITY_AI_GAME_PROGRAMMING_SECOND_EDITION.pdf
+// The number is the ISBN
 ```
-7. Right now, if the book directory already exists (either because the app erred or you have downloaded it before), it will delete the contents before downloading the files. I might change that functionality later. Leave a comment or submit an issue or pull request if you have any feedback on that.
 8. To schedule as a Windows Task, create a new task. Under the "Action" settings:
     - `Action: Start a program`
     - `Program/script: C:\Windows\System32\cmd.exe`
