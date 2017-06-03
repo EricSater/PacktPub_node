@@ -14,7 +14,7 @@ module.exports = class Handler {
         let $ = cheerio.load(body);
         let ebookDiv;
         ebookDiv = $("div.product-line").toArray().find(x => {
-            return $(x).attr("title").startsWith(bookTitle);
+            return $(x).attr("title").toUpperCase().startsWith(bookTitle.toUpperCase());
         });
         return ebookDiv;
     }
