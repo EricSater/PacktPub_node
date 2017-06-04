@@ -24,8 +24,12 @@ module.exports = class Handler {
         let orderDate = $($("td").toArray()[2]).text().trim().split(" ");
         // Since the website uses UTC, we use UTC to compare dates here
         let today = new Date().toUTCString().split(" ");
-        //                  day                         month                        year
-        return orderDate[0] === today[1] && orderDate[1] === today[2] && orderDate[2] === today[3];
+        // Strip off leading zeros
+        let sameDay = orderDate[0].replace(/^0+/, "") === today[1].replace(/^0+/, "");
+        // UTC date has only first 3 letters of month name
+        let sameMonth = orderDate[1].substring(0, 3) === today[2];
+        let sameYear = orderDate[2] === today[3];
+        return sameDay && sameMonth && sameYear;
     }
 
     getIsbn(ebookDiv) {
