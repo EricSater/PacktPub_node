@@ -10,11 +10,11 @@ module.exports = class Handler {
         return title;
     }
 
-    getEBookDiv(body, bookTitle) {
+    getEBookDiv(body, rawTitle) {
         let $ = cheerio.load(body);
         let ebookDiv;
         ebookDiv = $("div.product-line").toArray().find(x => {
-            return $(x).attr("title").toUpperCase().startsWith(bookTitle.toUpperCase());
+            return $(x).attr("title").toUpperCase().startsWith(rawTitle.toUpperCase());
         });
         return ebookDiv;
     }
@@ -45,6 +45,15 @@ module.exports = class Handler {
         if (fileTypes.kindle) output.push("");
         if (fileTypes.code) output.push("zip");
         return output;
+    }
+
+    cleanupTitle(rawTitle) {
+        let bookTitle = rawTitle;
+        let removables = ["\\", "/", ":", "*", "?", "\"", "<", ">", "|"];
+        removables.forEach(x => {
+            bookTitle = bookTitle.replace(x, "");
+        });
+        return bookTitle;
     }
 
     makeBookDirectory(rootDirectory, bookTitle, cleanDirectory) {
@@ -102,17 +111,29 @@ module.exports = class Handler {
         let uri = "";
         let fileName = isbn;
         if (type === "pdf") {
-            uri += hrefs.find(x => /pdf$/.test(x.attribs["href"])).attribs["href"];
-            fileName += `-${bookTitle.replace(/\s/, "_").toUpperCase()}.pdf`;
+            let elem = hrefs.find(x => /pdf$/.test(x.attribs["href"]));
+            if (elem) {
+                uri += elem.attribs["href"];
+                fileName += `-${bookTitle.replace(/\s/g, "_").toUpperCase()}.pdf`;
+            }
         } else if (type === "epub") {
-            uri += hrefs.find(x => /epub$/.test(x.attribs["href"])).attribs["href"];
-            fileName += ".epub";
+            let elem = hrefs.find(x => /epub$/.test(x.attribs["href"]));
+            if (elem) {
+                uri += elem.attribs["href"];
+                fileName += ".epub";
+            }
         } else if (type === "mobi") {
-            uri += hrefs.find(x => /mobi$/.test(x.attribs["href"])).attribs["href"];
-            fileName += ".mobi";
+            let elem = hrefs.find(x => /mobi$/.test(x.attribs["href"]));
+            if (elem) {
+                uri += elem.attribs["href"];
+                fileName += ".mobi";
+            }
         } else if (type === "zip") {
-            uri += hrefs.find(x => /^\/code_download/.test(x.attribs["href"])).attribs["href"];
-            fileName += "_code.zip";
+            let elem = hrefs.find(x => /^\/code_download/.test(x.attribs["href"]));
+            if (elem) {
+                uri += elem.attribs["href"];
+                fileName += "_code.zip";
+            }
         }
         return { uri, fileName };
     }
